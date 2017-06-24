@@ -71,3 +71,29 @@ func TestOpenSingleImage(t *testing.T) {
 	}
 	fmt.Println(img2.At(20, 20))
 }
+
+func TestSaveImage(t *testing.T) {
+	img, err := OpenGRAYImage(jpegfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = SaveImage("/tmp/g.jpg", img, SAVE_JPEG)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	img1, err := OpenSingleImage(pngfile, IMAGE_SINGLE_GREEN)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = SaveImage("/tmp/g.png", img1, SAVE_PNG)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = SaveImage("/tmp/gg.jpg", img1, SAVE_JPEG)
+	if err != nil {
+		t.Fatal(err)
+	}
+}

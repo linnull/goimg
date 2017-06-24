@@ -6,3 +6,7 @@ const (
 	IMAGE_SINGLE_BLUE
 )
 
+const (
+	SAVE_JPEG = iota
+	SAVE_PNG
+)

@@ -3,8 +3,8 @@ package goimg
 import (
 	"image"
 	"os"
-	_ "image/jpeg"
-	_ "image/png"
+	"image/jpeg"
+	"image/png"
 	"image/draw"
 	"image/color"
 	"github.com/pkg/errors"
@@ -69,7 +69,7 @@ func OpenALPHAImage(file string) (*image.Alpha, error) {
 }
 
 // 以单通道模式打开图像
-// 标志有三种
+// 通道标志有三种
 // IMAGE_SINGLE_RED（红通道）
 // IMAGE_SINGLE_GREEN（绿通道）
 // IMAGE_SINGLE_BLUE（蓝通道）
@@ -128,5 +128,39 @@ func OpenSingleImage(file string, flag int) (*image.RGBA, error) {
 		return imgBLUE, nil
 	default:
 		return nil, errors.New("no more single channel")
+	}
+}
+
+// 保存图像文件
+// file: 图像路径
+// img:  图像对象
+// flag: 图像格式（SAVE_JPEG,SAVE_PNG）
+func SaveImage(file string, img image.Image, flag int) error {
+	isExist := IsExist(file)
+	if isExist {
+		return errors.New("file is exist")
+	}
+
+	f, err := os.Create(file)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	switch flag {
+	case SAVE_JPEG:
+		err = jpeg.Encode(f, img, nil)
+		if err != nil {
+			return err
+		}
+		return nil
+	case SAVE_PNG:
+		err = png.Encode(f, img)
+		if err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.New("wrong save flag")
 	}
 }
