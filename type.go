@@ -10,3 +10,11 @@ const (
 	SAVE_JPEG = iota
 	SAVE_PNG
 )
+
+const (
+	ROTATE_LEFT = iota
+	ROTATE_RIGHT
+	ROTATE_FULL
+	FLIP_HORIZONTAL
+	FLIP_VERTICAL
+)
