@@ -397,3 +397,34 @@ func inBounds(b image.Rectangle, x, y int) bool {
 	return true
 }
 
+// 裁剪图像
+// src:源图像
+// x0,x1,y0,y1:裁剪的定点矩阵参数
+// 返回新的裁剪图像
+func CutImage(src image.Image, x0, y0, x1, y1 int) image.Image {
+	if src == nil {
+		return nil
+	}
+
+	bounds := src.Bounds()
+
+	if bounds.Empty() {
+		return nil
+	}
+
+	srcRGBA, srcOk := src.(*image.RGBA)
+	if srcOk{
+		dst := image.NewRGBA(image.Rect(0, 0, x1-x0, y1-y0))
+		draw.Draw(dst, dst.Rect, srcRGBA, image.Point{x0, y0}, draw.Src)
+		return dst
+	}
+
+	srcGRAY, srcOk := src.(*image.Gray)
+	if srcOk{
+		dst := image.NewGray(image.Rect(0, 0, x1-x0, y1-y0))
+		draw.Draw(dst, dst.Rect, srcGRAY, image.Point{x0, y0}, draw.Src)
+		return dst
+	}
+
+	return nil
+}

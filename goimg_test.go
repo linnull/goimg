@@ -228,3 +228,26 @@ func TestFlipImage2(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestCutImage(t *testing.T) {
+	rgba, err := OpenRGBAImage(jpegfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	gray, err := OpenGRAYImage(jpegfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dst1 := CutImage(rgba,0,0,100,100)
+	dst2 := CutImage(gray,100,100,300,300)
+
+	err = SaveImage("/tmp/cut1.jpg", dst1, SAVE_JPEG)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = SaveImage("/tmp/cut2.jpg", dst2, SAVE_JPEG)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
